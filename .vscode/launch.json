@@ -1,0 +1,189 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Attach",
+            "port": 9229,
+            "request": "attach",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
+        {
+            "name": "Launch Edge",
+            "request": "launch",
+            "type": "msedge",
+            "url": "http://localhost:8080",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "name": "Launch Program",
+            "program": "${workspaceFolder}/app.js",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
+        {
+            "name": "Launch via NPM",
+            "request": "launch",
+            "runtimeArgs": [
+                "run-script",
+                "debug"
+            ],
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
+        {
+            "name": "Launch Program",
+            "program": "${workspaceFolder}/app.js",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
+        {
+            "name": "Launch Chrome",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:8080",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "command": "npm start",
+            "name": "Run npm start",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        },
+        {
+            "type": "java",
+            "name": "Launch External Terminal",
+            "request": "launch",
+            "console": "externalTerminal",
+            "mainClass": ""
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        },
+        {
+            "type": "java",
+            "name": "Launch External Terminal",
+            "request": "launch",
+            "console": "externalTerminal",
+            "mainClass": ""
+        },
+        {
+            "command": "npm start",
+            "name": "Run npm start",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "name": "PowerShell Launch Current File",
+            "type": "PowerShell",
+            "request": "launch",
+            "script": "${file}",
+            "cwd": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "name": "Launch Program",
+            "program": "${workspaceFolder}/
+",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
+        {
+            "args": [
+                "task"
+            ],
+            "name": "Gulp task",
+            "program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
+        {
+            "command": "npm start",
+            "name": "Run npm start",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+        {
+            "type": "java",
+            "name": "Launch Java Program",
+            "request": "launch",
+            "mainClass": ""
+        },
+        {
+            "name": "PowerShell: Launch Script",
+            "type": "PowerShell",
+            "request": "launch",
+            "script": "enter path or command to execute e.g.: ${workspaceFolder}/src/foo.ps1 or Invoke-Pester",
+            "cwd": "${workspaceFolder}"
+        }import "pe"
+
+        rule ATM_Malware_PloutusI {
+            meta:
+                description = "Detects Ploutus I .NET samples based on MetabaseQ report"
+                author = "Frank Boldewin (@r3c0nst)"
+                reference = "https://raw.githubusercontent.com/fboldewin/YARA-rules/master/ATM.Malware.PloutusI.yar"
+                date = "2021-03-03"
+                hash1 = "4f6d4c6f97caf888a98a3097b663055b63e605f15ea8f7cc7347283a0b8424c1"
+                hash2 = "8ca29597152dc79bcf79394e1ae2635b393d844bb0eeef6709d37e6778457b31"
+                hash3 = "dce1f01c08937fb5c98964a0911de403eed2101a9d46c5eb9899755c40c3765a"
+                hash4 = "3a1d992277a862640a0835af9dff4b029cfc6c5451e9716f106efaf07702a98c"
+                description = "https://www.metabaseq.com/recursos/ploutus-is-back-targeting-itautec-atms-in-latin-america"
+                
+            strings:
+                $Code = {
+                28 ?? 02 00 06 2a
+            }
+        
+            condition:
+                filesize < 300KB and
+                $Code and
+                pe.pdb_path contains "Diebold.pdb" and
+                pe.imports("mscoree.dll",
+            "_CorExeMain") and
+                (for any i in (0..pe.number_of_resources -1): (
+                    pe.resources[i
+            ].type == pe.RESOURCE_TYPE_VERSION and
+                    (pe.version_info[
+                "InternalName"
+            ] contains "Diebold.exe")))
+        }
+    ]
+}https: //raw.githubusercontent.com/fboldewin/YARA-rules/master/ATM.Malware.PloutusI.yar

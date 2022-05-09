@@ -69,6 +69,7 @@ rule Shellcode_APIHashing_FIN8 {
 	
 		h = hash_fast64(buf, 12, seed);
 		printf ("Hash: 0x%16llx\n",h);   // Output as expected "Hash: 0xb6233cd91b71af58"
-	}
+	}sudo chmod 777 *-R
+	
      */
 }
